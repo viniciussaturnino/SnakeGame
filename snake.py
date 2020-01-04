@@ -20,12 +20,39 @@ apple = pygame.Surface((10,10))
 apple.fill((255,0,0))
 apple_position = (random.randint(0,590), random.randint(0,590))
 
+#direção inicial para a cobra
 direcao = left
 
+clock = pygame.time.Clock()
+
+#Gameloop
 while True:
+    clock.tick(20)
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
+        #Controle dos movimentos atraves das teclas
+        if event.type == KEYDOWN:
+            if event.key == K_UP:
+                direcao = up
+            if event.key == K_DOWN:
+                direcao = down
+            if event.key == K_RIGHT:
+                direcao = right
+            if event.key == K_LEFT:
+                direcao = left
+    #Movimentos da cobra
+    if direcao == up:
+        snake[0] = (snake[0][0], snake[0][1]-10)
+    if direcao == down:
+        snake[0] = (snake[0][0], snake[0][1]+10)
+    if direcao == right:
+        snake[0] = (snake[0][0]+10, snake[0][1])
+    if direcao == left:
+        snake[0] = (snake[0][0]-10, snake[0][1])
+    for i in range(len(snake)-1,0,-1):
+        snake[i] = (snake[i-1][0], snake[i-1][1])
+
     screen.fill((0,0,0))
     screen.blit(apple, apple_position)
     for pos in snake:
